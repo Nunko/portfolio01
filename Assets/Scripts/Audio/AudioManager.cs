@@ -36,13 +36,27 @@ namespace Fruit.Audio
         {
             switch (audioMixerName)
             {
-                case "BGM" :audioSourceBGM.mute = !audioSourceBGM.mute;                                                                        
+                case "BGM" :OnOffMasterVolume(audioMixerName);                                                                                                
                             break;
-                case "SFX" :audioSourceSFX.mute = !audioSourceSFX.mute;                              
+                case "SFX" :OnOffMasterVolume(audioMixerName);                              
                             break;
                 default :   AudioListener.volume = (AudioListener.volume == 0f) ? 1f : 0f;
                             break;
             }
+        }
+
+        void OnOffMasterVolume(string audioMixerName)
+        {
+            string masterName = audioMixerName + "Master";
+            float masterVolume = (MasterVolume(masterName) == 0f) ? -80f : 0f;
+            audioMixer.SetFloat(masterName, masterVolume);  
+        }
+
+        float MasterVolume(string masterName)
+        {
+            float masterVolume = -80f;
+            if (audioMixer.GetFloat(masterName, out masterVolume)) return masterVolume;
+            else return -80f;               
         }
 
         public void ControlAudioVolume(string audioMixerName, float volume)
@@ -58,7 +72,7 @@ namespace Fruit.Audio
             }
         }
 
-        /*
+        
         void OnGUI()
         {
             GUILayout.Label("Review output in the console:");
@@ -75,6 +89,6 @@ namespace Fruit.Audio
                 ToggleAudioVolume("SFX");
             }
         }
-        */               
+                       
     }
 }
