@@ -72,7 +72,7 @@ namespace Fruit.Audio
             }
         }
 
-        
+        /*
         void OnGUI()
         {
             GUILayout.Label("Review output in the console:");
@@ -89,6 +89,6 @@ namespace Fruit.Audio
                 ToggleAudioVolume("SFX");
             }
         }
-                       
+        */               
     }
 }
