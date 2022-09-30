@@ -1,5 +1,4 @@
 using System;
-using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -8,7 +7,7 @@ namespace Fruit.Map
     public class EnvironmentManager : MonoBehaviour
     {                
         public List<int> TimeHHList;
-        public List<Material> TimeSkybox;
+        public List<Material> Skyboxes;
 
         int timeNumberTmp;
         int timeNumber;
@@ -52,7 +51,7 @@ namespace Fruit.Map
         
         public void ChangeSkybox()
         {           
-            RenderSettings.skybox = TimeSkybox[timeNumber];
+            RenderSettings.skybox = Skyboxes[timeNumber];
         }
 
         /*
