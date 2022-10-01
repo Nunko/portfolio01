@@ -29,6 +29,7 @@ namespace Fruit.Map
 
         void Start()
         {
+            TimeEventBus.Publish(TimeEventType.ALL);
             TimeEventBus.Publish(TimeEventTypesExceptALL[timeNumber]);
             currentHHTmp = currentHH;
             timeNumberTmp = timeNumber; 
@@ -42,6 +43,7 @@ namespace Fruit.Map
                 timeNumber = TimeToIntConverter();
                 if (timeNumber != timeNumberTmp) {
                     timeNumberTmp = timeNumber;  
+                    TimeEventBus.Publish(TimeEventType.ALL);
                     TimeEventBus.Publish(TimeEventTypesExceptALL[timeNumber]);
                 }                
             }
@@ -92,13 +94,7 @@ namespace Fruit.Map
 
         public void TransfortTimeEvent(TimeEventType eventType, UnityAction listener)
         {
-            if (eventType == TimeEventType.ALL) {
-                foreach (var time in TimeEventTypesExceptALL) {
-                    SubscribeInEventHub(time, listener);
-                }
-            } else {
-                SubscribeInEventHub(eventType, listener);
-            }            
+            SubscribeInEventHub(eventType, listener);           
         }
 
         void SubscribeInEventHub(TimeEventType eventType, UnityAction listener)
@@ -106,18 +102,18 @@ namespace Fruit.Map
             TimeEventBus.Subscribe(eventType, listener);
         }
 
-        
+        /*
         void OnGUI()
         {
             GUILayout.Label("Review output in the console:");
             
-            GUILayout.Label("timeNumber: " + currentHH.ToString());
+            GUILayout.Label("currentHH: " + currentHH.ToString());
             GUILayout.Label("timeNumber: " + timeNumber.ToString());
 
             if (GUILayout.Button("Publish")) {
                 TimeEventBus.Publish(TimeEventTypesExceptALL[timeNumber]);
             }
         }
-          
+        */
     }
 }
