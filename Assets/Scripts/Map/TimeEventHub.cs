@@ -21,9 +21,9 @@ namespace Fruit.Map
 
         int timeNumberTmp, currentH, currentHTmp;
         
-        void Awake()
+        void OneEnable()
         {
-            currentH = CurrentH();
+            LoadCurrentH();
             timeNumber = TimeToIntConverter();             
         }
 
@@ -35,9 +35,21 @@ namespace Fruit.Map
             timeNumberTmp = timeNumber; 
         }
 
-        void LateUpdate() 
+        void LoadCurrentH()
         {            
-            currentH = CurrentH();
+            currentH = 0; //저장값을 불러옴
+        }
+
+        public void SpendTime(int time = 0)
+        {
+            currentH += time;
+            currentH %= 24;
+
+            CheckCurrentH();
+        }
+
+        void CheckCurrentH()
+        {
             if (currentH != currentHTmp) {
                 currentHTmp = currentH;
                 timeNumber = TimeToIntConverter();
@@ -47,12 +59,6 @@ namespace Fruit.Map
                     TimeEventBus.Publish(TimeEventTypesExceptALL[timeNumber]);
                 }                
             }
-        }
-
-        int CurrentH()
-        {
-            int timeH = DateTime.Now.Hour; //게임 자체 시간 만들어서 적용
-            return timeH;
         }
 
         int TimeToIntConverter()
@@ -102,18 +108,22 @@ namespace Fruit.Map
             TimeEventBus.Subscribe(eventType, listener);
         }
 
-        /*
+        
         void OnGUI()
         {
             GUILayout.Label("Review output in the console:");
             
-            GUILayout.Label("currentHH: " + currentHH.ToString());
+            GUILayout.Label("currentH: " + currentH.ToString());
             GUILayout.Label("timeNumber: " + timeNumber.ToString());
 
-            if (GUILayout.Button("Publish")) {
+            /*if (GUILayout.Button("Publish")) {
                 TimeEventBus.Publish(TimeEventTypesExceptALL[timeNumber]);
+            }*/
+
+            if (GUILayout.Button("SpendTime 2")) {
+                SpendTime(2);
             }
         }
-        */
+        
     }
 }
