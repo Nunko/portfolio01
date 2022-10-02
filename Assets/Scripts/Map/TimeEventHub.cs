@@ -16,14 +16,14 @@ namespace Fruit.Map
                 TimeEventType.DUSK, 
                 TimeEventType.MOONNIGHT};
 
-        public List<int> TimeHHList;
+        public List<int> TimeHList;
         public int timeNumber {get; private set;}
 
-        int timeNumberTmp, currentHH, currentHHTmp;
+        int timeNumberTmp, currentH, currentHTmp;
         
         void Awake()
         {
-            currentHH = CurrentHH();
+            currentH = CurrentH();
             timeNumber = TimeToIntConverter();             
         }
 
@@ -31,15 +31,15 @@ namespace Fruit.Map
         {
             TimeEventBus.Publish(TimeEventType.ALL);
             TimeEventBus.Publish(TimeEventTypesExceptALL[timeNumber]);
-            currentHHTmp = currentHH;
+            currentHTmp = currentH;
             timeNumberTmp = timeNumber; 
         }
 
         void LateUpdate() 
         {            
-            currentHH = CurrentHH();
-            if (currentHH != currentHHTmp) {
-                currentHHTmp = currentHH;
+            currentH = CurrentH();
+            if (currentH != currentHTmp) {
+                currentHTmp = currentH;
                 timeNumber = TimeToIntConverter();
                 if (timeNumber != timeNumberTmp) {
                     timeNumberTmp = timeNumber;  
@@ -49,29 +49,29 @@ namespace Fruit.Map
             }
         }
 
-        int CurrentHH()
+        int CurrentH()
         {
-            int timeHH = DateTime.Now.Hour; //게임 자체 시간 만들어서 적용
-            return DateTime.Now.Hour;
+            int timeH = DateTime.Now.Hour; //게임 자체 시간 만들어서 적용
+            return timeH;
         }
 
         int TimeToIntConverter()
         {
-            int firstHH, secondHH;
+            int firstH, secondH;
 
             int timeNumberInConverter = -1;
-            for (int i = 0; i < TimeHHList.Count; i++)
+            for (int i = 0; i < TimeHList.Count; i++)
             {
-                firstHH = TimeHHList[i];
+                firstH = TimeHList[i];
                 try {
-                    secondHH = TimeHHList[i + 1];
+                    secondH = TimeHList[i + 1];
                 } catch {
-                    secondHH = TimeHHList[0];
+                    secondH = TimeHList[0];
                 }
 
-                if (secondHH < firstHH) secondHH = secondHH + 24;                
+                if (secondH < firstH) secondH = secondH + 24;                
                 
-                if (currentHH >= firstHH && currentHH < secondHH) {
+                if (currentH >= firstH && currentH < secondH) {
                     timeNumberInConverter = i;
                     break;
                 }
