@@ -33,7 +33,7 @@ namespace Fruit.CameraM
             _cameraModeContext.Transition(_viewingPoint);
         }
 
-
+        /*
         void OnGUI() 
         {
             GUILayout.Label("Review output in the console:");
@@ -47,6 +47,6 @@ namespace Fruit.CameraM
                 ChangeCameraModeToViewingPoint();
             }
         }
-        
+        */
     }
 }
