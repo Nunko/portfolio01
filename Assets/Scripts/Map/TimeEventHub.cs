@@ -1,4 +1,3 @@
-using System;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Events;
@@ -17,11 +16,11 @@ namespace Fruit.Map
                 TimeEventType.MOONNIGHT};
 
         public List<int> TimeHList;
-        public int timeNumber {get; private set;}
-
-        int timeNumberTmp, currentH, currentHTmp;
+        public int timeNumber {get; private set;}        
+        public int currentH {get; private set;}
+        int timeNumberTmp, currentHTmp;
         
-        void OneEnable()
+        void OnEnable()
         {
             LoadCurrentH();
             timeNumber = TimeToIntConverter();             
@@ -31,13 +30,14 @@ namespace Fruit.Map
         {
             TimeEventBus.Publish(TimeEventType.ALL);
             TimeEventBus.Publish(TimeEventTypesExceptALL[timeNumber]);
+            TimeEventBus.Publish(TimeEventType.EVERYHOUR);
             currentHTmp = currentH;
             timeNumberTmp = timeNumber; 
         }
 
         void LoadCurrentH()
         {            
-            currentH = 0; //저장값을 불러옴
+            currentH = 12; //저장값을 불러옴
         }
 
         public void SpendTime(int time = 0)
@@ -52,11 +52,12 @@ namespace Fruit.Map
         {
             if (currentH != currentHTmp) {
                 currentHTmp = currentH;
+                TimeEventBus.Publish(TimeEventType.EVERYHOUR);
                 timeNumber = TimeToIntConverter();
                 if (timeNumber != timeNumberTmp) {
                     timeNumberTmp = timeNumber;  
                     TimeEventBus.Publish(TimeEventType.ALL);
-                    TimeEventBus.Publish(TimeEventTypesExceptALL[timeNumber]);
+                    TimeEventBus.Publish(TimeEventTypesExceptALL[timeNumber]);                    
                 }                
             }
         }
@@ -106,8 +107,7 @@ namespace Fruit.Map
         void SubscribeInEventHub(TimeEventType eventType, UnityAction listener)
         {
             TimeEventBus.Subscribe(eventType, listener);
-        }
-
+        }        
         
         void OnGUI()
         {
