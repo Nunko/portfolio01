@@ -61,7 +61,7 @@ namespace Fruit.Behaviour
                 {
                     ""name"": ""2D Vector"",
                     ""id"": ""6640e3b6-23d3-4bd2-9dd7-4c54a14bd423"",
-                    ""path"": ""2DVector"",
+                    ""path"": ""2DVector(mode=2)"",
                     ""interactions"": """",
                     ""processors"": """",
                     ""groups"": """",
