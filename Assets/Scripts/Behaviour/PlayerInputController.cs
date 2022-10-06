@@ -1,5 +1,7 @@
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using Fruit.Map;
 
 namespace Fruit.Behaviour
 {
@@ -35,6 +37,8 @@ namespace Fruit.Behaviour
         bool jumpInput = false;
 
         private List<Collider> Collisions = new List<Collider>();
+
+        List<int> CoList;
 
         private void OnCollisionEnter(Collision collision)
         {
@@ -91,12 +95,18 @@ namespace Fruit.Behaviour
             if (Collisions.Count == 0) { isGrounded = false; }
         }
 
+        void Awake()
+        {
+            CoList = new List<int>();
+        }
+
         void Start()
         {
             _input = new PlayerInputActions();
             _input.Player.RUN.Enable();
             _input.Player.WALK.Enable();
             _input.Player.JUMP.Enable();
+            _input.Player.INTERACTION.Enable();
         }
 
         void Update()
@@ -106,6 +116,14 @@ namespace Fruit.Behaviour
             {
                 jumpInput = true;
             }
+
+            if (CoList.Count == 0)
+            {
+                if (_input.Player.INTERACTION.ReadValue<float>() > 0.5f)
+                {                
+                    StartCoroutine("PublishInteractionEvent");
+                }
+            }            
         }
 
         void FixedUpdate()
@@ -213,6 +231,14 @@ namespace Fruit.Behaviour
             {
                 _animator.SetTrigger("Jump");
             }
+        }
+
+        IEnumerator PublishInteractionEvent()
+        {
+            CoList.Add(1);
+            InteractionEventBus.Publish(InteractionEventType.SEEINGPAINT);
+            yield return new WaitForSeconds(0.3f);
+            CoList.Clear();
         }
     }
 }
