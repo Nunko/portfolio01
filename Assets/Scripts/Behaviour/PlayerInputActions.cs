@@ -55,6 +55,15 @@ namespace Fruit.Behaviour
                     ""processors"": """",
                     ""interactions"": ""Press"",
                     ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""INTERACTION"",
+                    ""type"": ""Button"",
+                    ""id"": ""ca14f83f-0ec4-43ec-8850-0ca2d8ae0cc0"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": ""Press(behavior=1)"",
+                    ""initialStateCheck"": false
                 }
             ],
             ""bindings"": [
@@ -134,6 +143,17 @@ namespace Fruit.Behaviour
                     ""action"": ""JUMP"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""ff3f7161-37f1-4cc9-ad5d-a43c1c466ebe"",
+                    ""path"": ""<Keyboard>/f"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""INTERACTION"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
                 }
             ]
         }
@@ -145,6 +165,7 @@ namespace Fruit.Behaviour
             m_Player_RUN = m_Player.FindAction("RUN", throwIfNotFound: true);
             m_Player_WALK = m_Player.FindAction("WALK", throwIfNotFound: true);
             m_Player_JUMP = m_Player.FindAction("JUMP", throwIfNotFound: true);
+            m_Player_INTERACTION = m_Player.FindAction("INTERACTION", throwIfNotFound: true);
         }
 
         public void Dispose()
@@ -207,6 +228,7 @@ namespace Fruit.Behaviour
         private readonly InputAction m_Player_RUN;
         private readonly InputAction m_Player_WALK;
         private readonly InputAction m_Player_JUMP;
+        private readonly InputAction m_Player_INTERACTION;
         public struct PlayerActions
         {
             private @PlayerInputActions m_Wrapper;
@@ -214,6 +236,7 @@ namespace Fruit.Behaviour
             public InputAction @RUN => m_Wrapper.m_Player_RUN;
             public InputAction @WALK => m_Wrapper.m_Player_WALK;
             public InputAction @JUMP => m_Wrapper.m_Player_JUMP;
+            public InputAction @INTERACTION => m_Wrapper.m_Player_INTERACTION;
             public InputActionMap Get() { return m_Wrapper.m_Player; }
             public void Enable() { Get().Enable(); }
             public void Disable() { Get().Disable(); }
@@ -232,6 +255,9 @@ namespace Fruit.Behaviour
                     @JUMP.started -= m_Wrapper.m_PlayerActionsCallbackInterface.OnJUMP;
                     @JUMP.performed -= m_Wrapper.m_PlayerActionsCallbackInterface.OnJUMP;
                     @JUMP.canceled -= m_Wrapper.m_PlayerActionsCallbackInterface.OnJUMP;
+                    @INTERACTION.started -= m_Wrapper.m_PlayerActionsCallbackInterface.OnINTERACTION;
+                    @INTERACTION.performed -= m_Wrapper.m_PlayerActionsCallbackInterface.OnINTERACTION;
+                    @INTERACTION.canceled -= m_Wrapper.m_PlayerActionsCallbackInterface.OnINTERACTION;
                 }
                 m_Wrapper.m_PlayerActionsCallbackInterface = instance;
                 if (instance != null)
@@ -245,6 +271,9 @@ namespace Fruit.Behaviour
                     @JUMP.started += instance.OnJUMP;
                     @JUMP.performed += instance.OnJUMP;
                     @JUMP.canceled += instance.OnJUMP;
+                    @INTERACTION.started += instance.OnINTERACTION;
+                    @INTERACTION.performed += instance.OnINTERACTION;
+                    @INTERACTION.canceled += instance.OnINTERACTION;
                 }
             }
         }
@@ -254,6 +283,7 @@ namespace Fruit.Behaviour
             void OnRUN(InputAction.CallbackContext context);
             void OnWALK(InputAction.CallbackContext context);
             void OnJUMP(InputAction.CallbackContext context);
+            void OnINTERACTION(InputAction.CallbackContext context);
         }
     }
 }
