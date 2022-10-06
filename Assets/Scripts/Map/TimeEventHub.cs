@@ -88,18 +88,18 @@ namespace Fruit.Map
             else return 0;
         }
 
-        public void TransfortTimeEvents(List<TimeEventType> eventTypes, UnityAction listener)
+        public void TransfortTimeEventsSubscribtion(List<TimeEventType> eventTypes, UnityAction listener)
         {                         
             if (eventTypes.Contains(TimeEventType.ALL)) {
-                TransfortTimeEvent(TimeEventType.ALL, listener);
+                TransfortTimeEventSubscribtion(TimeEventType.ALL, listener);
             } else {
                 foreach (var eventType in eventTypes) {
-                TransfortTimeEvent(eventType, listener);
+                TransfortTimeEventSubscribtion(eventType, listener);
                 }
             }
         }
 
-        public void TransfortTimeEvent(TimeEventType eventType, UnityAction listener)
+        public void TransfortTimeEventSubscribtion(TimeEventType eventType, UnityAction listener)
         {
             SubscribeInEventHub(eventType, listener);           
         }
@@ -107,7 +107,17 @@ namespace Fruit.Map
         void SubscribeInEventHub(TimeEventType eventType, UnityAction listener)
         {
             TimeEventBus.Subscribe(eventType, listener);
-        }        
+        } 
+
+        public void TransfortTimeEventUnsubscribtion(TimeEventType eventType, UnityAction listener)
+        {
+            UnsubscribeInEventHub(eventType, listener);
+        }    
+
+        void UnsubscribeInEventHub(TimeEventType eventType, UnityAction listener)
+        {
+            TimeEventBus.Unsubscribe(eventType, listener);
+        }
         
         void OnGUI()
         {

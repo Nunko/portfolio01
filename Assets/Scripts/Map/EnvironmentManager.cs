@@ -1,5 +1,6 @@
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 namespace Fruit.Map
 {
@@ -14,6 +15,8 @@ namespace Fruit.Map
         TimeEventHub _TimeEventHub;
         int timeNumber;
 
+        public GameObject timeBarImage;
+
         void Awake()
         {
             _TimeEventHub = gameObject.GetComponent<TimeEventHub>();
@@ -21,10 +24,20 @@ namespace Fruit.Map
 
         void OnEnable()
         {
-            _TimeEventHub.TransfortTimeEvent(TimeEventType.ALL, LoadTimeNumber);
-            _TimeEventHub.TransfortTimeEvent(TimeEventType.ALL, ChangeSkybox);
-            _TimeEventHub.TransfortTimeEvent(TimeEventType.ALL, ChangeLightIntensities);
-            _TimeEventHub.TransfortTimeEvent(TimeEventType.ALL, ChangeShadowStrength);
+            _TimeEventHub.TransfortTimeEventSubscribtion(TimeEventType.ALL, LoadTimeNumber);
+            _TimeEventHub.TransfortTimeEventSubscribtion(TimeEventType.ALL, ChangeSkybox);
+            _TimeEventHub.TransfortTimeEventSubscribtion(TimeEventType.ALL, ChangeLightIntensities);
+            _TimeEventHub.TransfortTimeEventSubscribtion(TimeEventType.ALL, ChangeShadowStrength);
+            _TimeEventHub.TransfortTimeEventSubscribtion(TimeEventType.EVERYHOUR, FillTimeBackImage);
+        }
+
+        void OnDisable() 
+        {
+            _TimeEventHub.TransfortTimeEventUnsubscribtion(TimeEventType.ALL, LoadTimeNumber);
+            _TimeEventHub.TransfortTimeEventUnsubscribtion(TimeEventType.ALL, ChangeSkybox);
+            _TimeEventHub.TransfortTimeEventUnsubscribtion(TimeEventType.ALL, ChangeLightIntensities);
+            _TimeEventHub.TransfortTimeEventUnsubscribtion(TimeEventType.ALL, ChangeShadowStrength);
+            _TimeEventHub.TransfortTimeEventUnsubscribtion(TimeEventType.EVERYHOUR, FillTimeBackImage);    
         }
 
         public void LoadTimeNumber()
@@ -45,6 +58,11 @@ namespace Fruit.Map
         public void ChangeShadowStrength()
         {
             lightGObj.GetComponent<Light>().shadowStrength = ShadowStrengths[timeNumber];
+        }
+
+        void FillTimeBackImage()
+        {
+            timeBarImage.GetComponent<Image>().fillAmount = (float) _TimeEventHub.currentH%12/12;
         }
     }
 }
