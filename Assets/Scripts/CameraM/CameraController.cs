@@ -17,7 +17,8 @@ namespace Fruit.CameraM
             _viewingPoint = gameObject.AddComponent<CameraMode_ViewingPoint>();            
         }
 
-        void OnEnable() {
+        void Start() 
+        {
             ChangeCameraModeToAdventure();
         }
 
