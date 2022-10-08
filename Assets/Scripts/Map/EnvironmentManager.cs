@@ -1,6 +1,6 @@
 using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.UI;
+using TMPro;
 
 namespace Fruit.Map
 {
@@ -15,7 +15,7 @@ namespace Fruit.Map
         TimeEventHub _TimeEventHub;
         int timeNumber;
 
-        public GameObject timeBarImage;
+        public TextMeshProUGUI timeText;
 
         void Awake()
         {
@@ -28,7 +28,7 @@ namespace Fruit.Map
             _TimeEventHub.TransfortTimeEventSubscribtion(TimeEventType.ALL, ChangeSkybox);
             _TimeEventHub.TransfortTimeEventSubscribtion(TimeEventType.ALL, ChangeLightIntensities);
             _TimeEventHub.TransfortTimeEventSubscribtion(TimeEventType.ALL, ChangeShadowStrength);
-            _TimeEventHub.TransfortTimeEventSubscribtion(TimeEventType.EVERYHOUR, FillTimeBackImage);
+            _TimeEventHub.TransfortTimeEventSubscribtion(TimeEventType.EVERYHOUR, ChangeTimeText);
         }
 
         void OnDisable() 
@@ -37,32 +37,41 @@ namespace Fruit.Map
             _TimeEventHub.TransfortTimeEventUnsubscribtion(TimeEventType.ALL, ChangeSkybox);
             _TimeEventHub.TransfortTimeEventUnsubscribtion(TimeEventType.ALL, ChangeLightIntensities);
             _TimeEventHub.TransfortTimeEventUnsubscribtion(TimeEventType.ALL, ChangeShadowStrength);
-            _TimeEventHub.TransfortTimeEventUnsubscribtion(TimeEventType.EVERYHOUR, FillTimeBackImage);    
+            _TimeEventHub.TransfortTimeEventUnsubscribtion(TimeEventType.EVERYHOUR, ChangeTimeText);
         }
 
-        public void LoadTimeNumber()
+        void LoadTimeNumber()
         {
             timeNumber = _TimeEventHub.timeNumber;
         }
         
-        public void ChangeSkybox()
+        void ChangeSkybox()
         {           
             RenderSettings.skybox = Skyboxes[timeNumber];
         }
 
-        public void ChangeLightIntensities()
+        void ChangeLightIntensities()
         {
             lightGObj.GetComponent<Light>().intensity = LightIntensities[timeNumber];
         }
 
-        public void ChangeShadowStrength()
+        void ChangeShadowStrength()
         {
             lightGObj.GetComponent<Light>().shadowStrength = ShadowStrengths[timeNumber];
         }
 
-        void FillTimeBackImage()
+        void ChangeTimeText()
         {
-            timeBarImage.GetComponent<Image>().fillAmount = (float) _TimeEventHub.currentH%12/12;
+            int currentH = _TimeEventHub.currentH; 
+
+            int time = currentH%12;
+            if (time == 0) time = 12;
+
+            string ampm;                        
+            if (currentH < 12 || currentH == 24) ampm = "AM";             
+            else ampm = "PM";
+            
+            timeText.GetComponent<TextMeshProUGUI>().text = $"{time}\n{ampm}";
         }
     }
 }
