@@ -7,32 +7,32 @@ namespace Fruit.Map
 {
     public class PaintTrigger : MonoBehaviour
     {
-        public Object Sign;
-        GameObject _Sign;
-        public GameObject PaintPanel;
+        public Object sign;
+        GameObject _sign;
+        public GameObject paintPanel;
         public CameraMode_SeeingSomething _seeingSomething;
 
         void OnTriggerEnter(Collider other) 
-        {
-            if (!_Sign) GenerateSign();
-
+        {            
             if (other.gameObject.CompareTag("Player") == true)
             {
+                if (!_sign) GenerateSign();
+
                 InteractionEventBus.Subscribe(InteractionEventType.SEEINGPAINT, TogglePaintPanel);
                 CheckPaintGameObject();
-                _Sign.SetActive(true);
+                _sign.SetActive(true);
             }        
         }
 
         void OnTriggerStay(Collider other) 
         {
-            if (!_Sign) GenerateSign();
-
-            if (other.gameObject.CompareTag("Player") == true && _Sign.activeSelf == false)
+            if (other.gameObject.CompareTag("Player") == true && _sign.activeSelf == false)
             {
+                if (!_sign) GenerateSign();
+
                 InteractionEventBus.Subscribe(InteractionEventType.SEEINGPAINT, TogglePaintPanel);
                 CheckPaintGameObject();
-                _Sign.SetActive(true);
+                _sign.SetActive(true);
             }        
         }
 
@@ -41,27 +41,28 @@ namespace Fruit.Map
             if (other.gameObject.CompareTag("Player") == true)
             {
                 InteractionEventBus.Unsubscribe(InteractionEventType.SEEINGPAINT, TogglePaintPanel);
-                _Sign.SetActive(false);
+                _sign.SetActive(false);
             }        
         }
 
         void GenerateSign()
         {            
             var parentTransform = gameObject.transform.parent;
-            Vector3 addPostion = new Vector3(0, 0.75f, 0);
-            _Sign = Instantiate(Sign, parentTransform) as GameObject;
-            _Sign.transform.position = parentTransform.position + addPostion;
+            Vector3 addPostion = new Vector3(0, 0.75f, 0);            
+            Vector3 newPositon = parentTransform.position + addPostion;
+            _sign = Instantiate(sign, parentTransform) as GameObject;
+            _sign.transform.position = newPositon;
         }
 
         void TogglePaintPanel()
         {
-            if (PaintPanel.activeSelf == false)
+            if (paintPanel.activeSelf == false)
             {
-                PaintPanel.SetActive(true);
+                paintPanel.SetActive(true);
             }
             else
             {
-                PaintPanel.SetActive(false);
+                paintPanel.SetActive(false);
             }
         }
 
