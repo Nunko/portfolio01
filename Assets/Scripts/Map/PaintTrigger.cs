@@ -11,6 +11,12 @@ namespace Fruit.Map
         GameObject _sign;
         public GameObject paintPanel;
         public CameraMode_SeeingSomething _seeingSomething;
+        static List<GameObject> Signs;
+
+        void OnEnable()
+        {
+            Signs = new List<GameObject>();
+        }
 
         void OnTriggerEnter(Collider other) 
         {            
@@ -19,20 +25,18 @@ namespace Fruit.Map
                 if (!_sign) GenerateSign();
 
                 InteractionEventBus.Subscribe(InteractionEventType.SEEINGPAINT, TogglePaintPanel);
-                CheckPaintGameObject();
-                _sign.SetActive(true);
+                SetActiveTrueSign();
             }        
         }
 
         void OnTriggerStay(Collider other) 
         {
-            if (other.gameObject.CompareTag("Player") == true && _sign.activeSelf == false)
+            if (other.gameObject.CompareTag("Player") == true && Signs.Contains(_sign) == false)
             {
                 if (!_sign) GenerateSign();
 
                 InteractionEventBus.Subscribe(InteractionEventType.SEEINGPAINT, TogglePaintPanel);
-                CheckPaintGameObject();
-                _sign.SetActive(true);
+                SetActiveTrueSign();
             }        
         }
 
@@ -41,6 +45,7 @@ namespace Fruit.Map
             if (other.gameObject.CompareTag("Player") == true)
             {
                 InteractionEventBus.Unsubscribe(InteractionEventType.SEEINGPAINT, TogglePaintPanel);
+                Signs.Remove(_sign);
                 _sign.SetActive(false);
             }        
         }
@@ -66,9 +71,24 @@ namespace Fruit.Map
             }
         }
 
-        void CheckPaintGameObject()
+        void CheckPaintGameObject(GameObject gObj)
         {
-            _seeingSomething.SetLookAtGObj(gameObject);
+            _seeingSomething.SetLookAtGObj(gObj);
+        }
+
+        void SetActiveTrueSign()
+        {
+            Signs.Add(_sign);
+            if (Signs.Count > 1)
+            {
+                for (int i = 0; i < Signs.Count - 1; i++)
+                {
+                    Signs[i].SetActive(false);
+                }
+            }
+
+            CheckPaintGameObject(Signs[(Signs.Count - 1)].transform.parent.Find("Trigger").gameObject);
+            Signs[(Signs.Count - 1)].SetActive(true);            
         }
     }
 }
