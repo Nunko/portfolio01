@@ -6,15 +6,17 @@ namespace Fruit.CameraM
     {
         public Vector3 lookAt;
         public CameraModeType mode;
+        public GameObject lookAtGObj;
 
-        ICameraMode _adventure, _viewingPoint;
+        ICameraMode _adventure, _viewingPoint, _seeingSomething;
         CameraModeContext _cameraModeContext;
 
         void Awake()
         {
             _cameraModeContext = new CameraModeContext(this);
-            _adventure = gameObject.AddComponent<CameraMode_Adventure>();
-            _viewingPoint = gameObject.AddComponent<CameraMode_ViewingPoint>();            
+            _adventure = gameObject.GetComponent<CameraMode_Adventure>();
+            _viewingPoint = gameObject.GetComponent<CameraMode_ViewingPoint>();    
+            _seeingSomething = gameObject.GetComponent<CameraMode_SeeingSomething>();        
         }
 
         void Start() 
@@ -32,6 +34,12 @@ namespace Fruit.CameraM
         {
             mode = CameraModeType.VIEWINGPOINT;
             _cameraModeContext.Transition(_viewingPoint);
+        }
+
+        public void ChangeCameraModeToSeeingSomething()
+        {
+            mode = CameraModeType.SEEINGSOMETHING;
+            _cameraModeContext.Transition(_seeingSomething);
         }
 
         /*
