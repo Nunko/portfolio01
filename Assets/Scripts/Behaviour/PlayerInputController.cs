@@ -38,7 +38,7 @@ namespace Fruit.Behaviour
 
         private List<Collider> Collisions = new List<Collider>();
 
-        List<int> CoList;
+        public List<string> CoList;
 
         private void OnCollisionEnter(Collision collision)
         {
@@ -97,7 +97,7 @@ namespace Fruit.Behaviour
 
         void Awake()
         {
-            CoList = new List<int>();
+            CoList = new List<string>();
         }
 
         void Start()
@@ -235,9 +235,9 @@ namespace Fruit.Behaviour
 
         IEnumerator PublishInteractionEvent()
         {
-            CoList.Add(1);
+            CoList.Add(1.ToString());
             InteractionEventBus.Publish(InteractionEventType.SEEINGPAINT);
-            yield return new WaitForSeconds(0.3f);
+            yield return new WaitForSecondsRealtime(0.3f);
             CoList.Clear();
         }
     }
