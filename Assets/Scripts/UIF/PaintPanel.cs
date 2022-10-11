@@ -25,9 +25,9 @@ namespace Fruit.UIF
 
         void ShowPaintPanel()
         {
-            gameObject.GetComponent<CanvasGroup>().blocksRaycasts = true;
-            gameObject.GetComponent<CanvasGroup>().alpha = 1;
-            gameObject.GetComponent<CanvasGroup>().interactable = true;
+            this.GetComponent<CanvasGroup>().blocksRaycasts = true;
+            this.GetComponent<CanvasGroup>().alpha = 1;
+            this.GetComponent<CanvasGroup>().interactable = true;
             paintBoard.SetActive(true);            
             subCamera.enabled = true;
         }
@@ -36,9 +36,9 @@ namespace Fruit.UIF
         {
             if (subCamera) subCamera.enabled = false;            
             if (paintBoard) paintBoard.SetActive(false);
-            gameObject.GetComponent<CanvasGroup>().blocksRaycasts = true;
-            gameObject.GetComponent<CanvasGroup>().alpha = 1;
-            gameObject.GetComponent<CanvasGroup>().interactable = true;
+            this.GetComponent<CanvasGroup>().blocksRaycasts = true;
+            this.GetComponent<CanvasGroup>().alpha = 1;
+            this.GetComponent<CanvasGroup>().interactable = true;
         }
     }
 }

@@ -14,9 +14,9 @@ namespace Fruit.CameraM
         void Awake()
         {
             _cameraModeContext = new CameraModeContext(this);
-            _adventure = gameObject.GetComponent<CameraMode_Adventure>();
-            _viewingPoint = gameObject.GetComponent<CameraMode_ViewingPoint>();    
-            _seeingSomething = gameObject.GetComponent<CameraMode_SeeingSomething>();        
+            _adventure = this.GetComponent<CameraMode_Adventure>();
+            _viewingPoint = this.GetComponent<CameraMode_ViewingPoint>();    
+            _seeingSomething = this.GetComponent<CameraMode_SeeingSomething>();        
         }
 
         void Start() 

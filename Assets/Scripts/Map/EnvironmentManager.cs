@@ -22,7 +22,7 @@ namespace Fruit.Map
 
         void Awake()
         {
-            _TimeEventHub = gameObject.GetComponent<TimeEventHub>();
+            _TimeEventHub = this.GetComponent<TimeEventHub>();
         }
 
         void OnEnable()

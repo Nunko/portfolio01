@@ -36,7 +36,7 @@ namespace Fruit.Map
 
         void GenerateSign()
         {            
-            var parentTransform = gameObject.transform.parent;
+            var parentTransform = this.transform.parent;
             Vector3 addPostion = new Vector3(0, 0.75f, 0);            
             Vector3 newPositon = parentTransform.position + addPostion;
             _sign = Instantiate(sign, parentTransform) as GameObject;
