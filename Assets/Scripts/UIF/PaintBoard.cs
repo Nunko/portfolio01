@@ -7,8 +7,8 @@ namespace Fruit.UIF
         public Camera subCamera;
         
         // PEN COLOUR
-        public static Color Pen_Colour = Color.black;
-        public static int Pen_Width = 3;
+        public Color Pen_Colour = Color.black;
+        public int Pen_Width = 3;
 
 
         public delegate void Brush_Function(Vector2 world_position);
@@ -298,6 +298,26 @@ namespace Fruit.UIF
             // Should we reset our canvas image when we hit play in the editor?
             if (Reset_Canvas_On_Play)
                 ResetCanvas();
+        }
+
+        public void SetPencil()
+        {
+            Color c;
+            if (ColorUtility.TryParseHtmlString("#111122FF", out c))
+            {
+                SetMarkerColour(c);
+            }            
+            PaintBoard.drawable.SetPenBrush();
+        }
+        public void SetEraser()
+        {
+            Color c = this.GetComponent<SpriteRenderer>().color;
+            SetMarkerColour(c);
+        }
+
+        void SetMarkerColour(Color new_color)
+        {
+            Pen_Colour = new_color;
         }
     }
 }
