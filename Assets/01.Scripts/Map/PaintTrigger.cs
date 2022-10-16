@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using Fruit.CameraM;
+using Fruit.UIF;
 
 namespace Fruit.Map
 {
@@ -9,8 +10,11 @@ namespace Fruit.Map
     {
         public Object sign;
         GameObject _sign;
-        public GameObject paintPanel;
+        public GameObject paintPanel;        
         public CameraMode_SeeingSomething _seeingSomething;
+        public PaintBoard _paintBoard;
+
+        public string correctAnswer;
 
         void OnTriggerStay(Collider other) 
         {
@@ -20,6 +24,7 @@ namespace Fruit.Map
                 if (_sign.activeSelf == false)
                 {
                     InteractionEventBus.Subscribe(InteractionEventType.SEEINGPAINT, TogglePaintPanel);
+                    InteractionEventBus.Subscribe(InteractionEventType.SEEINGPAINT, PushCorrectAnswer);
                     SetActiveTrueSign();
                 }                
             }        
@@ -30,6 +35,7 @@ namespace Fruit.Map
             if (other.gameObject.CompareTag("Player") == true)
             {
                 InteractionEventBus.Unsubscribe(InteractionEventType.SEEINGPAINT, TogglePaintPanel);
+                InteractionEventBus.Unsubscribe(InteractionEventType.SEEINGPAINT, PushCorrectAnswer);
                 _sign.SetActive(false);
             }        
         }
@@ -64,6 +70,17 @@ namespace Fruit.Map
         {
             CheckPaintGameObject(gameObject);
             _sign.SetActive(true);            
+        }
+
+        void PushCorrectAnswer()
+        {
+            _paintBoard.SetCorrectAnswer(correctAnswer);
+        }
+
+        void OnEnable()
+        {
+            correctAnswer = "apple"; 
+            // 랜덤으로 들어가게
         }
     }
 }

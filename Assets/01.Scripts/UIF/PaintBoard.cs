@@ -35,6 +35,9 @@ namespace Fruit.UIF
         bool mouse_was_previously_held_down = false;
         bool no_drawing_on_current_drag = false;
 
+        bool isCorrectAnswer = false;
+        public string _correctAnswer {get; private set;}
+        public GameObject paintPanel;
 
 
 //////////////////////////////////////////////////////////////////////////////
@@ -300,6 +303,12 @@ namespace Fruit.UIF
                 ResetCanvas();
         }
 
+        void OnEnable()
+        {
+            if (Reset_Canvas_On_Play)
+                ResetCanvas();
+        }
+        
         public void SetPencil()
         {
             Color c;
@@ -325,6 +334,39 @@ namespace Fruit.UIF
         void SetPenWidth(int value)
         {
             Pen_Width = value;
+        }
+
+        public void SubmitAnswer()
+        {
+            isCorrectAnswer = true;
+
+            if (isCorrectAnswer == true)
+            {
+                GetAlphabetCard();
+            }            
+
+            paintPanel.SetActive(false);
+        }
+
+        public void SetCorrectAnswer(string correctAnswer)
+        {
+            _correctAnswer = correctAnswer;
+        }
+
+        void GetAlphabetCard()
+        {            
+            for (int i = 0; i < _correctAnswer.Length; i++)
+            {
+                if (PlayerPrefs.HasKey($"card_{_correctAnswer[i]}") == false)
+                {
+                    PlayerPrefs.SetInt($"card_{_correctAnswer[i]}", 0);
+                }
+                int cardAmount = PlayerPrefs.GetInt($"card_{_correctAnswer[i]}");
+                PlayerPrefs.SetInt($"card_{_correctAnswer[i]}", ++cardAmount);                
+                
+                int cardAmount_result = PlayerPrefs.GetInt($"card_{_correctAnswer[i]}");
+                Debug.Log($"card_{_correctAnswer[i]} {cardAmount_result}개 보유");
+            }            
         }
     }
 }
