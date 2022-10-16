@@ -307,17 +307,24 @@ namespace Fruit.UIF
             {
                 SetMarkerColour(c);
             }            
+            SetPenWidth(3);
             PaintBoard.drawable.SetPenBrush();
         }
         public void SetEraser()
         {
             Color c = this.GetComponent<SpriteRenderer>().color;
             SetMarkerColour(c);
+            SetPenWidth(10);
         }
 
         void SetMarkerColour(Color new_color)
         {
             Pen_Colour = new_color;
+        }
+
+        void SetPenWidth(int value)
+        {
+            Pen_Width = value;
         }
     }
 }
