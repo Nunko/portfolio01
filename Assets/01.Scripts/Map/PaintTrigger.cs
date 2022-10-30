@@ -79,8 +79,7 @@ namespace Fruit.Map
 
         void OnEnable()
         {
-            correctAnswer = "apple"; 
-            // 랜덤으로 들어가게
+            correctAnswer = this.GetComponentInParent<PaintAddressable>().PickUpAnswer(); 
         }
     }
 }
