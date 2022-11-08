@@ -2,7 +2,6 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
-using UnityEditor;
 using Fruit.CameraM;
 using Fruit.UIF;
 
@@ -10,15 +9,17 @@ namespace Fruit.Map
 {
     public class PaintTrigger : MonoBehaviour
     {
-        public Object sign;
+        public GameObject sign;
         GameObject _sign;
-        public GameObject paintPanel;        
-        public CameraMode_SeeingSomething _seeingSomething;
-        public PaintBoard _paintBoard;
+        GameObject paintPanel;        
+        CameraMode_SeeingSomething seeingSomething;
+        PaintBoard paintBoard;
+        PaintData paintData;
 
-        public Object paintDataFolder;
-        public PaintScriptableObject paintData;
+        public PaintScriptableObject paint;
         string correctAnswer;
+
+        static List<int> currentAnswers;
 
         void OnTriggerStay(Collider other) 
         {
@@ -49,7 +50,7 @@ namespace Fruit.Map
             var parentTransform = this.transform.parent;
             Vector3 addPostion = new Vector3(0, 0.75f, 0);            
             Vector3 newPositon = parentTransform.position + addPostion;
-            _sign = Instantiate(sign, parentTransform) as GameObject;
+            _sign = Instantiate(sign, parentTransform);
             _sign.transform.position = newPositon;
         }
 
@@ -68,7 +69,7 @@ namespace Fruit.Map
 
         void CheckPaintGameObject(GameObject gObj)
         {
-            _seeingSomething.SetLookAtGObj(gObj);
+            seeingSomething.SetLookAtGObj(gObj);
         }
 
         void SetActiveTrueSign()
@@ -79,23 +80,29 @@ namespace Fruit.Map
 
         void PushCorrectAnswer()
         {
-            _paintBoard.SetCorrectAnswer(correctAnswer);
+            paintBoard.SetCorrectAnswer(correctAnswer);
         }
 
         void OnEnable()
         {            
-            PickUpPaint();
-            correctAnswer = paintData.answer; 
-        }
-  
-        void PickUpPaint()
-        {
+            paintData = this.GetComponentInParent<PaintData>();
+            paintPanel = paintData.paintPanel;
+            seeingSomething = paintData.seeingSomething;
+            paintBoard = paintData.paintBoard;
 
+            SetPaint();
+            correctAnswer = paint.answer; 
+        }
+
+        void SetPaint()
+        {
+            int count = paintData.paints.Count;
+            paint = paintData.paints[Random.Range(0, count)];
         }
 
         void SetPaintPanelImage()
         {
-            paintPanel.transform.Find("Image").gameObject.GetComponent<Image>().sprite = paintData.fruitPaint;
+            paintPanel.transform.Find("Image").gameObject.GetComponent<Image>().sprite = paint.fruitPaint;
         }   
     }
 }
