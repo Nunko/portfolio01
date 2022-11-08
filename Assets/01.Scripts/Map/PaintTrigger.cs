@@ -1,6 +1,8 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
+using UnityEditor;
 using Fruit.CameraM;
 using Fruit.UIF;
 
@@ -14,7 +16,9 @@ namespace Fruit.Map
         public CameraMode_SeeingSomething _seeingSomething;
         public PaintBoard _paintBoard;
 
-        public string correctAnswer;
+        public Object paintDataFolder;
+        public PaintScriptableObject paintData;
+        string correctAnswer;
 
         void OnTriggerStay(Collider other) 
         {
@@ -53,6 +57,7 @@ namespace Fruit.Map
         {
             if (paintPanel.activeSelf == false)
             {
+                SetPaintPanelImage();
                 paintPanel.SetActive(true);
             }
             else
@@ -78,8 +83,19 @@ namespace Fruit.Map
         }
 
         void OnEnable()
-        {
-            correctAnswer = this.GetComponentInParent<PaintAddressable>().PickUpAnswer(); 
+        {            
+            PickUpPaint();
+            correctAnswer = paintData.answer; 
         }
+  
+        void PickUpPaint()
+        {
+
+        }
+
+        void SetPaintPanelImage()
+        {
+            paintPanel.transform.Find("Image").gameObject.GetComponent<Image>().sprite = paintData.fruitPaint;
+        }   
     }
 }
