@@ -42,4 +42,14 @@ public class PaintSpawner : MonoBehaviour
 
         return hit.position;
     }
+
+    public void Replace(GameObject item)
+    {
+        Vector3 spawnPosition = GetRandomPointOnNavMesh(centerTransform.position, maxDistance);
+        spawnPosition += Vector3.up * 0.5f;
+
+        item.transform.position = spawnPosition;
+        int randNumber = Random.Range(0, 360);        
+        item.transform.rotation = Quaternion.Euler(0, randNumber, 90);  
+    }
 }

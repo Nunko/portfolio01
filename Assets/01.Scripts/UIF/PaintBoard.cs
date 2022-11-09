@@ -336,6 +336,8 @@ namespace Fruit.UIF
             Pen_Width = value;
         }
 
+        public GameObject currentPaint;
+        public PaintSpawner paintSpawner;
         public void SubmitAnswer()
         {
             isCorrectAnswer = true;
@@ -344,6 +346,8 @@ namespace Fruit.UIF
             {
                 GetAlphabetCard();
             }            
+
+            paintSpawner.Replace(currentPaint);
 
             paintPanel.SetActive(false);
         }
@@ -369,6 +373,6 @@ namespace Fruit.UIF
             }
             MainUI.instance.DisplayAllCardCount();
             MainUI.instance.DisplayCardCount();
-        }
+        }        
     }
 }

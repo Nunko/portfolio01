@@ -21,6 +21,8 @@ namespace Fruit.Map
 
         static List<int> currentAnswers;
 
+        bool isCorrectAnswer;
+
         void OnTriggerStay(Collider other) 
         {
             if (other.gameObject.CompareTag("Player") == true)
@@ -30,6 +32,7 @@ namespace Fruit.Map
                 {
                     InteractionEventBus.Subscribe(InteractionEventType.SEEINGPAINT, TogglePaintPanel);
                     InteractionEventBus.Subscribe(InteractionEventType.SEEINGPAINT, PushCorrectAnswer);
+                    InteractionEventBus.Subscribe(InteractionEventType.SEEINGPAINT, PushCurrentGameObject);
                     SetActiveTrueSign();
                 }                
             }        
@@ -41,6 +44,7 @@ namespace Fruit.Map
             {
                 InteractionEventBus.Unsubscribe(InteractionEventType.SEEINGPAINT, TogglePaintPanel);
                 InteractionEventBus.Unsubscribe(InteractionEventType.SEEINGPAINT, PushCorrectAnswer);
+                InteractionEventBus.Unsubscribe(InteractionEventType.SEEINGPAINT, PushCurrentGameObject);
                 _sign.SetActive(false);
             }        
         }
@@ -54,7 +58,7 @@ namespace Fruit.Map
             _sign.transform.position = newPositon;
         }
 
-        void TogglePaintPanel()
+        public void TogglePaintPanel()
         {
             if (paintPanel.activeSelf == false)
             {
@@ -81,6 +85,11 @@ namespace Fruit.Map
         void PushCorrectAnswer()
         {
             paintBoard.SetCorrectAnswer(correctAnswer);
+        }
+
+        void PushCurrentGameObject()
+        {
+            paintBoard.currentPaint = this.transform.parent.gameObject;
         }
 
         void OnEnable()
