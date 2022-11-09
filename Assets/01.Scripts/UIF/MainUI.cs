@@ -42,21 +42,13 @@ namespace Fruit.UIF
         public TextMeshProUGUI cardCoundTextLTMPro;
         public TextMeshProUGUI cardCoundTextRTMPro;
 
-        void Awake()
-        {
-            PlayerPrefs.DeleteAll();
-            Debug.Log("보유 카드 초기화");
-        }
+        public GameObject q1menuPanel;
+        public GameObject configurationPanel;
 
         void Start()
         {
             DisplayAllCardCount();
-        }
-
-        public void ClickMenuButton()
-        {
-            Debug.Log("우측 상단 버튼 클릭");
-        }        
+        }     
 
         public void ClickCardButton()
         {
@@ -153,6 +145,29 @@ namespace Fruit.UIF
             }
 
             return alphabetCountText;
+        }
+
+        public void ClickQ1MenuButton()
+        {
+            q1menuPanel.SetActive(!q1menuPanel.activeSelf);
+        }
+
+        public void ClickConfigurationButton()
+        {
+            configurationPanel.SetActive(!configurationPanel.activeSelf);
+        }
+
+        public void ExitGame()
+        {
+            Debug.Log("게임 종료");
+            Application.Quit();
+        }
+
+        public void InitializeSaveData()
+        {
+            PlayerPrefs.DeleteAll();
+            Debug.Log("보유 카드 초기화");
+            UnityEngine.SceneManagement.SceneManager.LoadScene(UnityEngine.SceneManagement.SceneManager.GetActiveScene().name);
         }
     }
 }
