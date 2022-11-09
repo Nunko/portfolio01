@@ -366,7 +366,9 @@ namespace Fruit.UIF
                 
                 int cardAmount_result = PlayerPrefs.GetInt($"card_{_correctAnswer[i]}");
                 Debug.Log($"card_{_correctAnswer[i]} {cardAmount_result}개 보유");
-            }            
+            }
+            MainUI.instance.DisplayAllCardCount();
+            MainUI.instance.DisplayCardCount();
         }
     }
 }
