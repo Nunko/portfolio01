@@ -338,18 +338,19 @@ namespace Fruit.UIF
 
         public GameObject currentPaint;
         public PaintSpawner paintSpawner;
+        public Fruit.Map.TimeEventHub timeEventHub;
         public void SubmitAnswer()
         {
             isCorrectAnswer = true;
+            paintPanel.SetActive(false);   
 
             if (isCorrectAnswer == true)
             {
                 GetAlphabetCard();
-            }            
 
-            paintSpawner.Replace(currentPaint);
-
-            paintPanel.SetActive(false);
+                paintSpawner.Replace(currentPaint);
+                timeEventHub.SpendTime(2);
+            }                                 
         }
 
         public void SetCorrectAnswer(string correctAnswer)
