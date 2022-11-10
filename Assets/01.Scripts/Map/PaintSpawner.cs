@@ -9,7 +9,8 @@ public class PaintSpawner : MonoBehaviour
     public Transform centerTransform;
 
     int maxCount = 10;
-    public float maxDistance = 5f;
+    float maxDistance = 20f;
+    float noSpawnDistance = 10f;
 
     void OnEnable() 
     {
@@ -35,7 +36,12 @@ public class PaintSpawner : MonoBehaviour
 
     Vector3 GetRandomPointOnNavMesh(Vector3 center, float distance)
     {
-        Vector3 randomPos = Random.insideUnitSphere * distance + center;
+        Vector3 randomPos;
+        do
+        {
+            randomPos = Random.insideUnitSphere * distance + center;
+            Debug.Log(randomPos);
+        } while(Vector3.Distance(randomPos, centerTransform.position) < noSpawnDistance);
 
         NavMeshHit hit;
         NavMesh.SamplePosition(randomPos, out hit, distance, NavMesh.AllAreas);
