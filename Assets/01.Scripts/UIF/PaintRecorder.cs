@@ -15,8 +15,12 @@ namespace Fruit.UIF
         public Camera subCamera;
 
         // 4k = 3840 x 2160   1080p = 1920 x 1080
-        public int captureWidth = 1920;
-        public int captureHeight = 1080;
+        int currentScreenWidth;
+        int currentScreenHeight;
+        public int captureWidth;
+        public int captureHeight;
+        float rectX;
+        float rectY;
 
         // optional game object to hide during screenshots (usually your scene canvas hud)
         public GameObject hideGameObject; 
@@ -79,6 +83,16 @@ namespace Fruit.UIF
             captureScreenshot = true;
         }
 
+        void Start()
+        {
+            currentScreenWidth = Screen.width;
+            currentScreenHeight = Screen.height;
+            captureWidth = (int)(currentScreenWidth * subCamera.rect.width);
+            captureHeight = (int)(currentScreenHeight * subCamera.rect.height);
+            rectX = currentScreenWidth * subCamera.rect.x;
+            rectY = currentScreenHeight * (0.5f - subCamera.rect.y);
+        }
+
         void Update()
         {
             // check keyboard 'k' for one time screenshot capture and holding down 'v' for continious screenshots
@@ -96,8 +110,8 @@ namespace Fruit.UIF
                 if (renderTexture == null)
                 {
                     // creates off-screen render texture that can rendered into
-                    rect = new Rect(0, 0, captureWidth, captureHeight);
-                    renderTexture = new RenderTexture(captureWidth, captureHeight, 24);
+                    rect = new Rect(rectX, rectY, currentScreenWidth, currentScreenHeight);
+                    renderTexture = new RenderTexture(currentScreenWidth, currentScreenHeight, 24);
                     screenShot = new Texture2D(captureWidth, captureHeight, TextureFormat.RGB24, false);
                 }
             
