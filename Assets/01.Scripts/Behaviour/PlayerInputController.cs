@@ -57,6 +57,8 @@ namespace Fruit.Behaviour
 
         public string trigger;
 
+        public bool isTest = false;
+
         private void OnCollisionEnter(Collision collision)
         {
             ContactPoint[] contactPoints = collision.contacts;
@@ -126,14 +128,14 @@ namespace Fruit.Behaviour
             _input.Player.INTERACTION.Enable();
         }
         
-        public bool isJump; 
-        public bool isInteraction;
+        bool isJump; 
+        bool isInteraction;
         void Update()
         {                           
-            // if (Application.platform != RuntimePlatform.Android)
-            // {
-            //     isJump = _input.Player.JUMP.ReadValue<float>() > 0.5f ? true : false;
-            // }             
+            if (isTest == true)
+            {
+                isJump = _input.Player.JUMP.ReadValue<float>() > 0.5f ? true : false;
+            }             
 
             if (!jumpInput && isJump)
             {
@@ -143,10 +145,10 @@ namespace Fruit.Behaviour
 
             if (CoList.Count == 0)
             {
-                // if (Application.platform != RuntimePlatform.Android)
-                // {
-                //     isInteraction = _input.Player.INTERACTION.ReadValue<float>() > 0.5f ? true : false;
-                // }
+                if (isTest == true)
+                {
+                    isInteraction = _input.Player.INTERACTION.ReadValue<float>() > 0.5f ? true : false;
+                }
 
                 if (isInteraction == true)
                 {                
@@ -182,16 +184,16 @@ namespace Fruit.Behaviour
         void RUNUpdate()
         {
             float v, h;
-            // if (Application.platform == RuntimePlatform.Android)
+            if (isTest != true)
             {
                 v = variableJoystick.Vertical;
                 h = variableJoystick.Horizontal;
             }
-            // else
-            // {
-            //     v = Input.GetAxis("Vertical");
-            //     h = Input.GetAxis("Horizontal");
-            // }        
+            else
+            {
+                v = Input.GetAxis("Vertical");
+                h = Input.GetAxis("Horizontal");
+            }        
 
             Transform camera = Camera.main.transform;
 
@@ -226,16 +228,16 @@ namespace Fruit.Behaviour
         void WALKUpdate()
         {
             float v, h;
-            // if (Application.platform == RuntimePlatform.Android)
+            if (isTest != true)
             {
                 v = variableJoystick.Vertical;
                 h = variableJoystick.Horizontal;
             }
-            // else
-            // {
-            //     v = Input.GetAxis("Vertical");
-            //     h = Input.GetAxis("Horizontal");
-            // }
+            else
+            {
+                v = Input.GetAxis("Vertical");
+                h = Input.GetAxis("Horizontal");
+            }
             
             bool walk = _input.Player.WALK.ReadValue<float>() > 0.5f? true : false;
 
