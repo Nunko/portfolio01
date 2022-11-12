@@ -4,6 +4,7 @@ using UnityEngine;
 using UnityEngine.UI;
 using Fruit.CameraM;
 using Fruit.UIF;
+using Fruit.Behaviour;
 
 namespace Fruit.Map
 {
@@ -27,6 +28,8 @@ namespace Fruit.Map
         {
             if (other.gameObject.CompareTag("Player") == true)
             {
+                PlayerInputController.instance.trigger = "SEEINGPAINT";
+
                 if (!_sign) GenerateSign();
                 if (_sign.activeSelf == false)
                 {

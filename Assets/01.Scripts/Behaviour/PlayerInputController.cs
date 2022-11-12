@@ -12,6 +12,20 @@ namespace Fruit.Behaviour
 
     public class PlayerInputController : MonoBehaviour
     {
+        public static PlayerInputController instance
+        {
+            get
+            {
+                if (m_instance == null)
+                {
+                    m_instance = FindObjectOfType<PlayerInputController>();
+                }
+
+                return m_instance;
+            }
+        }
+        private static PlayerInputController m_instance; //싱글턴이 할당될 변수
+
         public float runSpeed = 2.0f;
         public float turnSpeed = 200.0f;
         public float jumpForce = 4.0f;
@@ -39,6 +53,8 @@ namespace Fruit.Behaviour
         private List<Collider> Collisions = new List<Collider>();
 
         public List<string> CoList;
+
+        public string trigger;
 
         private void OnCollisionEnter(Collision collision)
         {
@@ -236,7 +252,17 @@ namespace Fruit.Behaviour
         IEnumerator PublishInteractionEvent()
         {
             CoList.Add(1.ToString());
-            InteractionEventBus.Publish(InteractionEventType.SEEINGPAINT);
+            switch (trigger)
+            {
+                case "SEEINGPAINT": 
+                    InteractionEventBus.Publish(InteractionEventType.SEEINGPAINT);
+                    break;
+                case "VIEWINGPOINT":
+                    InteractionEventBus.Publish(InteractionEventType.VIEWINGPOINT);
+                    break;
+                default: break;
+            }
+            
             yield return new WaitForSecondsRealtime(0.3f);
             CoList.Clear();
         }

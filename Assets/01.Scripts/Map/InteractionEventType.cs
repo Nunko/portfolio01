@@ -2,6 +2,6 @@ namespace Fruit.Map
 {
     public enum InteractionEventType
     {
-        SEEINGPAINT
+        SEEINGPAINT, VIEWINGPOINT
     }
 }
