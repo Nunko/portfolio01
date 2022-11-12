@@ -10,7 +10,7 @@ public class PaintSpawner : MonoBehaviour
 
     int maxCount = 10;
     float maxDistance = 20f;
-    float noSpawnDistance = 10f;
+    float noSpawnDistance = 15f;
 
     void OnEnable() 
     {
