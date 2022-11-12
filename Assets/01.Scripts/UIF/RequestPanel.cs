@@ -13,6 +13,19 @@ namespace Fruit.UIF
         public GameObject buttonPanel;
         public GameObject keyboardPanel;        
 
+        Fruit.Map.PaintData paintData;
+        List<string> paintNames;
+
+        void Start()
+        {
+            paintData = FindObjectOfType<Fruit.Map.PaintData>();
+            paintNames = new List<string>();
+            foreach (var paint in paintData.paints)
+            {
+                paintNames.Add(paint.answer);
+            }
+        }
+
         void OnEnable()
         {
             Time.timeScale = 0;
@@ -67,7 +80,21 @@ namespace Fruit.UIF
         {
             playerInputWord = inputTMPro.text;
             inputTMPro.text = "";
-            gameObject.SetActive(false);
+            CheckWord();
+        }
+
+        void CheckWord()
+        {
+            if (paintNames.Contains(playerInputWord) == true)
+            {                
+                GetItem();
+                gameObject.SetActive(false);
+            }
+        }
+
+        void GetItem()
+        {
+            Debug.Log($"{playerInputWord} 획득");
         }
     }
 }
