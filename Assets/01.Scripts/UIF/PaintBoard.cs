@@ -385,6 +385,7 @@ namespace Fruit.UIF
         public void SubmitAlphabet()
         {
             classification.RecognizeAlphabet();
+            ResetCanvas();
         }
     }
 }

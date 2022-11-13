@@ -83,7 +83,7 @@ namespace Fruit.UIF
 
             // Run the MNIST model.
             using var worker =
-            ModelLoader.Load(_model).CreateWorker(WorkerFactory.Device.CPU);
+            ModelLoader.Load(_model).CreateWorker(WorkerFactory.Device.GPU);
 
             worker.Execute(input);
 
