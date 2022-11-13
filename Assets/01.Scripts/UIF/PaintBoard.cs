@@ -8,7 +8,7 @@ namespace Fruit.UIF
         
         // PEN COLOUR
         public Color Pen_Colour = Color.black;
-        public int Pen_Width = 3;
+        public int Pen_Width = 20;
 
 
         public delegate void Brush_Function(Vector2 world_position);
@@ -303,6 +303,12 @@ namespace Fruit.UIF
                 ResetCanvas();
         }
 
+        Classification classification;
+        void Start()
+        {
+            classification = FindObjectOfType<Classification>();
+        }
+
         void OnEnable()
         {
             if (Reset_Canvas_On_Play)
@@ -375,5 +381,10 @@ namespace Fruit.UIF
             MainUI.instance.DisplayAllCardCount();
             MainUI.instance.DisplayCardCount();
         }        
+
+        public void SubmitAlphabet()
+        {
+            classification.RecognizeAlphabet();
+        }
     }
 }
