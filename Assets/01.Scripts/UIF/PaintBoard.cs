@@ -35,7 +35,6 @@ namespace Fruit.UIF
         bool mouse_was_previously_held_down = false;
         bool no_drawing_on_current_drag = false;
 
-        bool isCorrectAnswer = false;
         public string _correctAnswer {get; private set;}
         public GameObject paintPanel;
 
@@ -347,16 +346,12 @@ namespace Fruit.UIF
         public Fruit.Map.TimeEventHub timeEventHub;
         public void SubmitAnswer()
         {
-            isCorrectAnswer = true;
             paintPanel.SetActive(false);   
 
-            if (isCorrectAnswer == true)
-            {
-                GetAlphabetCard();
+            GetAlphabetCard();
 
-                paintSpawner.Replace(currentPaint);
-                timeEventHub.SpendTime(2);
-            }                                 
+            paintSpawner.Replace(currentPaint);
+            timeEventHub.SpendTime(2);                             
         }
 
         public void SetCorrectAnswer(string correctAnswer)
@@ -384,8 +379,25 @@ namespace Fruit.UIF
 
         public void SubmitAlphabet()
         {
+            classification.correctAnswer = _correctAnswer;
             classification.RecognizeAlphabet();
             ResetCanvas();
+        }
+
+        public void DeleteAlphabet()
+        {
+            if (classification.outputAlphabet.Length > 0) 
+            {
+                classification.outputAlphabet = classification.outputAlphabet.Remove(classification.outputAlphabet.Length - 1, 1);
+                classification.inputTextTMPro.text = classification.outputAlphabet;
+            }            
+        }
+
+        public void ForceCorrectAnswer()
+        {
+            classification.outputAlphabet = _correctAnswer;
+            classification.inputTextTMPro.text = classification.outputAlphabet;
+            SubmitAnswer();
         }
     }
 }
