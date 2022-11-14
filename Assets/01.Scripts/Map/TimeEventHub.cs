@@ -119,21 +119,21 @@ namespace Fruit.Map
             TimeEventBus.Unsubscribe(eventType, listener);
         }
         
-        void OnGUI()
-        {
-            GUILayout.Label("Review output in the console:");
+        //void OnGUI()
+        //{
+        //    GUILayout.Label("Review output in the console:");
             
-            GUILayout.Label("currentH: " + currentH.ToString());
-            GUILayout.Label("timeNumber: " + timeNumber.ToString());
+        //    GUILayout.Label("currentH: " + currentH.ToString());
+        //    GUILayout.Label("timeNumber: " + timeNumber.ToString());
 
-            /*if (GUILayout.Button("Publish")) {
-                TimeEventBus.Publish(TimeEventTypesExceptALL[timeNumber]);
-            }*/
+        //    /*if (GUILayout.Button("Publish")) {
+        //        TimeEventBus.Publish(TimeEventTypesExceptALL[timeNumber]);
+        //    }*/
 
-            if (GUILayout.Button("SpendTime 2")) {
-                SpendTime(2);
-            }
-        }
+        //    if (GUILayout.Button("SpendTime 2")) {
+        //        SpendTime(2);
+        //    }
+        //}
         
     }
 }
