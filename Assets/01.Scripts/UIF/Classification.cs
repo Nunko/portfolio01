@@ -1,4 +1,4 @@
-using System.Collections;
+﻿using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using System.IO;
@@ -8,6 +8,7 @@ using TMPro;
 
 namespace Fruit.UIF
 {
+    // AI 모델을 활용하여 
     public class Classification : MonoBehaviour
     {
         public Camera subCamera;
@@ -72,8 +73,8 @@ namespace Fruit.UIF
 
         void LoadLabels() 
         {
-            labels = new string[26];
-            string alphabets = "abcdefghijklmnopqrstuvwxyz";
+            labels = new string[37];
+            string alphabets = "abcdefghijklmnopqrstuvwxyzabdefghnqrt";
             for(int i = 0; i < labels.Length; i++)
             {
                 labels[i] = alphabets[i].ToString();
@@ -155,7 +156,6 @@ namespace Fruit.UIF
 
             new System.Threading.Thread(() =>
                 {
-                    // create file and write optional header with image bytes
                     var f = System.IO.File.Create(filename);
                     f.Write(fileData, 0, fileData.Length);
                     f.Close();
